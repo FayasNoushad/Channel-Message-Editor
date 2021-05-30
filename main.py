@@ -10,7 +10,7 @@ FayasNoushad = Client(
 
 @FayasNoushad.on_message(filters.private & filters.reply & (filters.media | filters.text))
 async def post(bot, update): 
-    if "-100"not in update.text:
+    if "-100" not in update.text:
         return
     try:
         await bot.copy_message(
