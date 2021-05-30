@@ -9,8 +9,12 @@ FayasNoushad = Client(
         api_hash = os.environ["API_HASH"]
 )
 
+AUTH_USERS = set(int(x) for x in os.environ.get("AUTH_USERS", "").split())
+
 @FayasNoushad.on_message(filters.private & filters.reply & ((filters.media | filters.text) & ~filters.forward & ~filters.edit))
 async def post(bot, update):
+    if update.from_user.id not in AUTH_USERS:
+        return
     if "-100" not in update.text:
         return
     try:
@@ -41,6 +45,8 @@ async def post(bot, update):
 
 @FayasNoushad.on_message(filters.private & filters.reply & filters.commands(["edit"]))
 async def edit(bot, update):
+    if update.from_user.id not in AUTH_USERS:
+        return
     if update.text == "/edit":
         return
     if " " in update.text:
