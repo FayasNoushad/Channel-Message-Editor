@@ -11,11 +11,9 @@ FayasNoushad = Client(
 
 AUTH_USERS = set(int(x) for x in os.environ.get("AUTH_USERS", "").split())
 
-@FayasNoushad.on_message(filters.private & filters.reply & ((filters.media | filters.text) & ~filters.forward & ~filters.edit))
-async def post(bot, update):
-    if update.from_user.id not in AUTH_USERS:
-        return
-    if "-100" not in update.text:
+@FayasNoushad.on_message(filters.private & filters.reply & (filters.command(["post"]) & ~filters.forward & ~filters.edit))
+async def post(bot, update): 
+    if ((update.text == "post") or ("-100" not in update.text)) and (update.from_user.id not in AUTH_USERS):
         return
     try:
         user = await bot.get_chat_member(update.text, update.chat.id)
@@ -45,9 +43,7 @@ async def post(bot, update):
 
 @FayasNoushad.on_message(filters.private & filters.reply & filters.commands(["edit"]))
 async def edit(bot, update):
-    if update.from_user.id not in AUTH_USERS:
-        return
-    if update.text == "/edit":
+    if (update.text == "/edit") and (update.from_user.id not in AUTH_USERS):
         return
     if " " in update.text:
         command, link = update.text.split(" ", 1)
