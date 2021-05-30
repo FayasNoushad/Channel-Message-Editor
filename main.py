@@ -87,6 +87,8 @@ async def cb_data(bot, update):
 
 @FayasNoushad.on_message(filters.private & filters.command(["start"]))
 async def start(bot, update):
+    if update.from_user.id not in AUTH_USERS:
+        return
     await update.reply_text(
         text=START_TEXT.format(update.from_user.mention),
         disable_web_page_preview=True,
