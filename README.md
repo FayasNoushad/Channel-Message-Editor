@@ -17,6 +17,8 @@ License -> https://github.com/FayasNoushad/Channel-Message-Editor/blob/main/LICE
 - `BOT_TOKEN` Your bot token from @BotFather
 - `AUTH_USERS` Channel administrators IDs
 
+---
+
 ## Credits
 
 - [Fayas Noushad](https://github.com/FayasNoushad)
