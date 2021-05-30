@@ -18,6 +18,9 @@
         },
         "API_HASH": {
             "description": "Your API_HASH from https://my.telegram.org/apps"
+        },
+        "AUTH_USERS": {
+            "description": "Bot admins id's (only bot admin can use the bot)"
         }
     },
     "buildpacks": [
