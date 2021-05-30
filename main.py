@@ -1,5 +1,6 @@
 import os
-from pyrogram import Client, filters 
+from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 FayasNoushad = Client(
         "Channel Message Editor Bot",
