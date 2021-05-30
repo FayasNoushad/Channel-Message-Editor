@@ -38,8 +38,8 @@ async def post(bot, update):
                 ]]
             )
         )
-    except Exception:
-        pass
+    except Exception as error:
+        await update.reply_text(error)
 
 @FayasNoushad.on_message(filters.private & filters.reply & filters.commands(["edit"]))
 async def edit(bot, update):
@@ -58,16 +58,20 @@ async def edit(bot, update):
         if (user.status != "administrator") and (user.can_post_messages != True):
             await update.reply_text("You can't do that")
             return
-    except Exception:
+    except Exception as error:
+        await update.reply_text(error)
         return
     if update.reply_to_message.text:
-        await bot.edit_message_text(
-            chat_id=channel,
-            message_id=message_id,
-            text=reply_to_message.text,
-            reply_markup=reply_to_message.reply_markup,
-            disable_web_page_preview=True
-        )
+        try:
+            await bot.edit_message_text(
+                chat_id=channel,
+                message_id=message_id,
+                text=reply_to_message.text,
+                reply_markup=reply_to_message.reply_markup,
+                disable_web_page_preview=True
+            )
+        except Exception as error:
+            await update.reply_text(error)
     else:
         await update.reply_text("I can edit text only")
 
