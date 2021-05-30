@@ -10,6 +10,8 @@ Copyright permission under MIT License
 License -> https://github.com/FayasNoushad/Channel-Message-Editor/blob/main/LICENSE
 ```
 
+---
+
 ## Variables
 
 - `API_HASH` Your API Hash from my.telegram.org
