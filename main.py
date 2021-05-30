@@ -13,11 +13,20 @@ async def post(bot, update):
     if "-100" not in update.text:
         return
     try:
-        await bot.copy_message(
+        post = await bot.copy_message(
             chat_id=update.text
             from_chat_id=update.reply_to_message.chat.id,
             message_id=update.reply_to_message.message_id,
             reply_markup=update.reply_to_message.reply_markup
+        )
+        post_link = "https://telegram.me" + str(post.chat.id) + str(post.message_id)
+        await update.reply_text(
+            text="Posted Successfully",
+            reply_markup=InlineKeyboardMarkup(
+                [[
+                InlineKeyboardButton(text="Post", url=post_link)
+                ]]
+            )
         )
     except Exception:
         pass
