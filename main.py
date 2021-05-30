@@ -11,6 +11,88 @@ FayasNoushad = Client(
 
 AUTH_USERS = set(int(x) for x in os.environ.get("AUTH_USERS", "").split())
 
+START_TEXT = """
+Hello {}, I am a channel message editor bot.
+
+Made by @FayasNoushad
+"""
+HELP_TEXT = """
+- I am a channel message editor bot.
+- I can edit and post message of a channel.
+
+Made by @FayasNoushad
+"""
+ABOUT_TEXT = """
+- **Bot :** `Channel Message Editor Bot`
+- **Creator :** [Fayas](https://telegram.me/TheFayas)
+- **Channel :** [Fayas Noushad](https://telegram.me/FayasNoushad)
+- **Source :** [Click here](https://github.com/FayasNoushad/Channel-Message-Editor/tree/main)
+- **Language :** [Python3](https://python.org)
+- **Library :** [Pyrogram](https://pyrogram.org)
+- **Server :** [Heroku](https://heroku.com)
+"""
+START_BUTTONS = InlineKeyboardMarkup(
+        [[
+        InlineKeyboardButton('Channel', url='https://telegram.me/FayasNoushad'),
+        InlineKeyboardButton('Feedback', url='https://telegram.me/TheFayas')
+        ],[
+        InlineKeyboardButton('Help', callback_data='help'),
+        InlineKeyboardButton('About', callback_data='about'),
+        InlineKeyboardButton('Close', callback_data='close')
+        ]]
+    )
+HELP_BUTTONS = InlineKeyboardMarkup(
+        [[
+        InlineKeyboardButton('Home', callback_data='home'),
+        InlineKeyboardButton('About', callback_data='about'),
+        InlineKeyboardButton('Close', callback_data='close')
+        ]]
+    )
+ABOUT_BUTTONS = InlineKeyboardMarkup(
+        [[
+        InlineKeyboardButton('Home', callback_data='home'),
+        InlineKeyboardButton('Help', callback_data='help'),
+        InlineKeyboardButton('Close', callback_data='close')
+        ]]
+    )
+ERROR_BUTTON = InlineKeyboardMarkup(
+        [[
+        InlineKeyboardButton('Help', callback_data='help'),
+        InlineKeyboardButton('Close', callback_data='close')
+        ]]
+    )
+
+@FayasNoushad.on_callback_query()
+async def cb_data(bot, update):
+    if update.data == "home":
+        await update.message.edit_text(
+            text=START_TEXT.format(update.from_user.mention),
+            reply_markup=START_BUTTONS,
+            disable_web_page_preview=True
+        )
+    elif update.data == "help":
+        await update.message.edit_text(
+            text=HELP_TEXT,
+            reply_markup=HELP_BUTTONS,
+            disable_web_page_preview=True
+        )
+    elif update.data == "about":
+        await update.message.edit_text(
+            text=ABOUT_TEXT,
+            reply_markup=ABOUT_BUTTONS,
+            disable_web_page_preview=True
+        )
+    else:
+        await update.message.delete()
+
+@FayasNoushad.on_message(filters.private & filters.command(["start"]))
+async def start(bot, update):
+    await update.reply_text(
+        text=START_TEXT.format(update.from_user.mention),
+        disable_web_page_preview=True,
+        reply_markup=START_BUTTONS
+    )
+
 @FayasNoushad.on_message(filters.private & filters.reply & (filters.command(["post"]) & ~filters.forward & ~filters.edit))
 async def post(bot, update): 
     if ((update.text == "post") or ("-100" not in update.text)) and (update.from_user.id not in AUTH_USERS):
