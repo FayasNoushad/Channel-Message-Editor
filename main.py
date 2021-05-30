@@ -9,9 +9,16 @@ FayasNoushad = Client(
         api_hash = os.environ["API_HASH"]
 )
 
-@FayasNoushad.on_message(filters.private & filters.reply & (filters.media | filters.text))
-async def post(bot, update): 
+@FayasNoushad.on_message(filters.private & filters.reply & ((filters.media | filters.text) & ~filters.forward & ~filters.edit))
+async def post(bot, update):
     if "-100" not in update.text:
+        return
+    try:
+        user = await bot.get_chat_member(update.text, update.chat.id)
+        if (user.status != "administrator") and (user.can_post_messages != True):
+            await update.reply_text("You can't do that")
+            return
+    except Exception:
         return
     try:
         post = await bot.copy_message(
