@@ -39,4 +39,34 @@ async def post(bot, update):
     except Exception:
         pass
 
+@FayasNoushad.on_message(filters.private & filters.reply & filters.commands(["edit"]))
+async def edit(bot, update):
+    if update.text == "/edit":
+        return
+    if " " in update.text:
+        command, link = update.text.split(" ", 1)
+    else:
+        return
+    if "/" in link:
+        domain, channel, message_id = update.text.split("/", -2)
+    else:
+        return
+    try:
+        user = await bot.get_chat_member(update.text, update.chat.id)
+        if (user.status != "administrator") and (user.can_post_messages != True):
+            await update.reply_text("You can't do that")
+            return
+    except Exception:
+        return
+    if update.reply_to_message.text:
+        await bot.edit_message_text(
+            chat_id=channel,
+            message_id=message_id,
+            text=reply_to_message.text,
+            reply_markup=reply_to_message.reply_markup,
+            disable_web_page_preview=True
+        )
+    else:
+        await update.reply_text("I can edit text only")
+
 FayasNoushad.run()
