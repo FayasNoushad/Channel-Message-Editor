@@ -1,3 +1,9 @@
+# Made with python3
+# (C) @FayasNoushad
+# Copyright permission under MIT License
+# All rights reserved by FayasNoushad
+# License -> https://github.com/FayasNoushad/Channel-Message-Editor/blob/main/LICENSE
+
 import os
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
