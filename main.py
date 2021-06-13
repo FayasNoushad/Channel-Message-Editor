@@ -9,10 +9,10 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 FayasNoushad = Client(
-        "Channel Message Editor Bot",
-        bot_token = os.environ["BOT_TOKEN"],
-        api_id = int(os.environ["API_ID"]),
-        api_hash = os.environ["API_HASH"]
+    "Channel Message Editor Bot",
+    bot_token = os.environ["BOT_TOKEN"],
+    api_id = int(os.environ["API_ID"]),
+    api_hash = os.environ["API_HASH"]
 )
 
 AUTH_USERS = set(int(x) for x in os.environ.get("AUTH_USERS", "").split())
@@ -147,7 +147,7 @@ async def edit(bot, update):
     else:
         return
     if "/" in link:
-        domain, channel, link = update.text.split("/", -2)
+        channel, message_id = update.text.split("/", 1)
     else:
         return
     try:
