@@ -126,7 +126,7 @@ async def post(bot, update):
             message_id=update.reply_to_message.message_id,
             reply_markup=update.reply_to_message.reply_markup
         )
-        post_link = "https://telegram.me/" + str(post.chat.id) + "/" + str(post.message_id)
+        post_link = f"https://telegram.me/c/{post.chat.id}/{post.message_id}"
         await update.reply_text(
             text="Posted Successfully",
             reply_markup=InlineKeyboardMarkup(
