@@ -106,17 +106,22 @@ async def post(bot, update):
     if ((update.text == "post") or (" " not in update.text)) and (update.from_user.id not in AUTH_USERS):
         return 
     if " " in update.text:
-        command, message_id = update.text.split(" ", 1)
+        command, chat_id = update.text.split(" ", 1)
     try:
-        user = await bot.get_chat_member(int(message_id), update.chat.id)
+        user = await bot.get_chat_member(
+            int(chat_id),
+            update.from_user.id
+        )
         if user.can_post_messages:
-            await update.reply_text("You can't do that")
+            await update.reply_text(
+                text="You can't do that"
+            )
             return
     except Exception:
         return
     try:
         post = await bot.copy_message(
-            chat_id=int(message_id),
+            chat_id=int(chat_id),
             from_chat_id=update.reply_to_message.chat.id,
             message_id=update.reply_to_message.message_id,
             reply_markup=update.reply_to_message.reply_markup
