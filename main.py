@@ -156,7 +156,7 @@ async def edit(bot, update):
             chat_id=int(chat_id),
             user_id=update.from_user.id
         )
-        if (user.can_be_edited != True) or (user.status == "creator"):
+        if user.can_be_edited != True:
             await update.reply_text(
                 text="You can't do that"
             )
