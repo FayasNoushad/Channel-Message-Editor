@@ -114,7 +114,7 @@ async def post(bot, update):
         return
     try:
         post = await bot.copy_message(
-            chat_id=update.text
+            chat_id=int(update.text),
             from_chat_id=update.reply_to_message.chat.id,
             message_id=update.reply_to_message.message_id,
             reply_markup=update.reply_to_message.reply_markup
