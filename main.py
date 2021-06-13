@@ -103,7 +103,7 @@ async def start(bot, update):
 
 @FayasNoushad.on_message(filters.private & filters.reply & (filters.command(["post"]) & ~filters.forwarded & ~filters.edited))
 async def post(bot, update): 
-    if ((update.text == "post") or ("-100" not in update.text)) and (update.from_user.id not in AUTH_USERS):
+    if ((update.text == "post") or (" " not in update.text)) and (update.from_user.id not in AUTH_USERS):
         return
     try:
         user = await bot.get_chat_member(update.text, update.chat.id)
