@@ -153,7 +153,7 @@ async def edit(bot, update):
     try:
         user = await bot.get_chat_member(
             int(message_id),
-            update.chat.id
+            update.from_user.id
         )
         if (user.status != "administrator") or (user.can_be_edited != True):
             await update.reply_text(
