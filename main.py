@@ -109,7 +109,7 @@ async def post(bot, update):
         command, message_id = update.text.split(" ", 1)
     try:
         user = await bot.get_chat_member(int(message_id), update.chat.id)
-        if (user.status != "administrator") or (user.can_post_messages != True):
+        if user.can_post_messages:
             await update.reply_text("You can't do that")
             return
     except Exception:
