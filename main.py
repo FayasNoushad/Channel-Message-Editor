@@ -109,10 +109,10 @@ async def post(bot, update):
         command, chat_id = update.text.split(" ", 1)
     try:
         user = await bot.get_chat_member(
-            int(chat_id),
-            update.from_user.id
+            chat_id=int(chat_id),
+            user_id=update.from_user.id
         )
-        if user.can_post_messages:
+        if user.can_post_messages != True:
             await update.reply_text(
                 text="You can't do that"
             )
@@ -152,8 +152,8 @@ async def edit(bot, update):
         return
     try:
         user = await bot.get_chat_member(
-            int(message_id),
-            update.from_user.id
+            chat_id=int(message_id),
+            user_id=update.from_user.id
         )
         if (user.status != "administrator") or (user.can_be_edited != True):
             await update.reply_text(
