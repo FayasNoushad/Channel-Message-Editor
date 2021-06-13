@@ -136,6 +136,7 @@ async def post(bot, update):
             )
         )
     except Exception as error:
+        print(error)
         await update.reply_text(error)
 
 @FayasNoushad.on_message(filters.private & filters.reply & filters.command(["edit"]))
@@ -155,12 +156,13 @@ async def edit(bot, update):
             chat_id=int(channel),
             user_id=update.from_user.id
         )
-        if (user.status != "administrator") or (user.can_be_edited != True):
+        if user.can_be_edited != True:
             await update.reply_text(
                 text="You can't do that"
             )
             return
     except Exception as error:
+        print(error)
         await update.reply_text(error)
         return
     if update.reply_to_message.text:
