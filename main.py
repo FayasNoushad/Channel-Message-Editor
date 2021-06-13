@@ -148,7 +148,7 @@ async def edit(bot, update):
     else:
         return
     if "/" in link:
-        channel, message_id = update.text.split("/", 1)
+        channel, message_id = link.split("/", 1)
     else:
         return
     try:
