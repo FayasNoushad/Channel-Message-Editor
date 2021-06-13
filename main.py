@@ -131,7 +131,7 @@ async def post(bot, update):
     except Exception as error:
         await update.reply_text(error)
 
-@FayasNoushad.on_message(filters.private & filters.reply & filters.commands(["edit"]))
+@FayasNoushad.on_message(filters.private & filters.reply & filters.command(["edit"]))
 async def edit(bot, update):
     if (update.text == "/edit") and (update.from_user.id not in AUTH_USERS):
         return
