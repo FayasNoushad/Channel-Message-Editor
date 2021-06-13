@@ -104,9 +104,11 @@ async def start(bot, update):
 @FayasNoushad.on_message(filters.private & filters.reply & (filters.command(["post"]) & ~filters.forwarded & ~filters.edited))
 async def post(bot, update): 
     if ((update.text == "post") or (" " not in update.text)) and (update.from_user.id not in AUTH_USERS):
-        return
+        return 
+    if " " in update.text:
+        command, message_id = update.text.split(" ", 1)
     try:
-        user = await bot.get_chat_member(update.text, update.chat.id)
+        user = await bot.get_chat_member(int(message_id), update.chat.id)
         if (user.status != "administrator") or (user.can_post_messages != True):
             await update.reply_text("You can't do that")
             return
@@ -114,7 +116,7 @@ async def post(bot, update):
         return
     try:
         post = await bot.copy_message(
-            chat_id=int(update.text),
+            chat_id=int(message_id),
             from_chat_id=update.reply_to_message.chat.id,
             message_id=update.reply_to_message.message_id,
             reply_markup=update.reply_to_message.reply_markup
@@ -140,11 +142,11 @@ async def edit(bot, update):
     else:
         return
     if "/" in link:
-        domain, channel, message_id = update.text.split("/", -2)
+        domain, channel, message_id = update.text.split("/", 2)
     else:
         return
     try:
-        user = await bot.get_chat_member(update.text, update.chat.id)
+        user = await bot.get_chat_member(int(message_id), update.chat.id)
         if (user.status != "administrator") or (user.can_be_edited != True):
             await update.reply_text("You can't do that")
             return
@@ -155,7 +157,7 @@ async def edit(bot, update):
         try:
             await bot.edit_message_text(
                 chat_id=channel,
-                message_id=message_id,
+                message_id=int(message_id),
                 text=reply_to_message.text,
                 reply_markup=reply_to_message.reply_markup,
                 disable_web_page_preview=True
