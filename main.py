@@ -148,12 +148,12 @@ async def edit(bot, update):
     else:
         return
     if "/" in link:
-        channel, message_id = link.split("/", 1)
+        chat_id, message_id = link.split("/", 1)
     else:
         return
     try:
         user = await bot.get_chat_member(
-            chat_id=int(channel),
+            chat_id=int(chat_id),
             user_id=update.from_user.id
         )
         if user.can_be_edited != True:
@@ -168,7 +168,7 @@ async def edit(bot, update):
     if update.reply_to_message.text:
         try:
             await bot.edit_message_text(
-                chat_id=int(channel),
+                chat_id=int(chat_id),
                 message_id=int(message_id),
                 text=update.reply_to_message.text,
                 reply_markup=update.reply_to_message.reply_markup,
