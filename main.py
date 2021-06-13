@@ -151,9 +151,14 @@ async def edit(bot, update):
     else:
         return
     try:
-        user = await bot.get_chat_member(int(message_id), update.chat.id)
+        user = await bot.get_chat_member(
+            int(message_id),
+            update.chat.id
+        )
         if (user.status != "administrator") or (user.can_be_edited != True):
-            await update.reply_text("You can't do that")
+            await update.reply_text(
+                text="You can't do that"
+            )
             return
     except Exception as error:
         await update.reply_text(error)
