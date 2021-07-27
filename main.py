@@ -101,15 +101,15 @@ async def start(bot, update):
         reply_markup=START_BUTTONS
     )
 
-@FayasNoushad.on_message(filters.private & filters.reply & (filters.command(["post"]) & ~filters.forwarded & ~filters.edited))
+@FayasNoushad.on_message(filters.private & filters.reply & (filters.command(["post"]), group=1)
 async def post(bot, update): 
     if ((update.text == "post") or (" " not in update.text)) and (update.from_user.id not in AUTH_USERS):
         return 
     if " " in update.text:
-        command, chat_id = update.text.split(" ", 1)
+        chat_id = int(update.text.split()[1])
     try:
         user = await bot.get_chat_member(
-            chat_id=int(chat_id),
+            chat_id=chat_id,
             user_id=update.from_user.id
         )
         if user.can_post_messages != True:
@@ -121,7 +121,7 @@ async def post(bot, update):
         return
     try:
         post = await bot.copy_message(
-            chat_id=int(chat_id),
+            chat_id=chat_id,
             from_chat_id=update.reply_to_message.chat.id,
             message_id=update.reply_to_message.message_id,
             reply_markup=update.reply_to_message.reply_markup
@@ -139,7 +139,7 @@ async def post(bot, update):
         print(error)
         await update.reply_text(error)
 
-@FayasNoushad.on_message(filters.private & filters.reply & filters.command(["edit"]))
+@FayasNoushad.on_message(filters.private & filters.reply & filters.command(["edit"]), group=2)
 async def edit(bot, update):
     if (update.text == "/edit") and (update.from_user.id not in AUTH_USERS):
         return
@@ -148,17 +148,19 @@ async def edit(bot, update):
     else:
         return
     if "/" in link:
-        chat_id, message_id = link.split("/", 1)
+        ids = link.split("/")
+        chat_id = int(ids[-2])
+        message_id = int(ids[-1])
     else:
         return
     try:
         user = await bot.get_chat_member(
-            chat_id=int(chat_id),
+            chat_id=chat_id,
             user_id=update.from_user.id
         )
         if user.can_be_edited != True:
             await update.reply_text(
-                text="You can't do that"
+                text="You can't do that, User needed can_be_edited permission."
             )
             return
     except Exception as error:
@@ -168,8 +170,8 @@ async def edit(bot, update):
     if update.reply_to_message.text:
         try:
             await bot.edit_message_text(
-                chat_id=int(chat_id),
-                message_id=int(message_id),
+                chat_id=chat_id,
+                message_id=message_id,
                 text=update.reply_to_message.text,
                 reply_markup=update.reply_to_message.reply_markup,
                 disable_web_page_preview=True
