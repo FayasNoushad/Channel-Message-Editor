@@ -7,6 +7,9 @@
 import os
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+import logging
+
+logging.basicConfig(level=logging.WARNING)
 
 FayasNoushad = Client(
     "Channel Message Editor Bot",
@@ -14,8 +17,6 @@ FayasNoushad = Client(
     api_id = int(os.environ["API_ID"]),
     api_hash = os.environ["API_HASH"]
 )
-
-AUTH_USERS = set(int(x) for x in os.environ.get("AUTH_USERS", "").split())
 
 START_TEXT = """
 Hello {}, I am a channel message editor bot.
@@ -68,6 +69,13 @@ ERROR_BUTTON = InlineKeyboardMarkup(
         ]]
     )
 
+async def AUTH_USERS(chat_id: int):
+    async for admin in FayasNoushad.iter_chat_members(
+        chat_id,
+        filter="administrators"
+    ):
+        return [admin.user.id]
+
 @FayasNoushad.on_callback_query()
 async def cb_data(bot, update):
     if update.data == "home":
@@ -93,7 +101,7 @@ async def cb_data(bot, update):
 
 @FayasNoushad.on_message(filters.private & filters.command(["start"]))
 async def start(bot, update):
-    if update.from_user.id not in AUTH_USERS:
+    if update.from_user.id not in await AUTH_USERS(message.chat.id):
         return
     await update.reply_text(
         text=START_TEXT.format(update.from_user.mention),
@@ -103,7 +111,7 @@ async def start(bot, update):
 
 @FayasNoushad.on_message(filters.private & filters.reply & (filters.command(["post"]), group=1)
 async def post(bot, update): 
-    if ((update.text == "post") or (" " not in update.text)) and (update.from_user.id not in AUTH_USERS):
+    if ((update.text == "post") or (" " not in update.text)) and (update.from_user.id not in await AUTH_USERS(message.chat.id)):
         return 
     if " " in update.text:
         chat_id = int(update.text.split()[1])
@@ -141,7 +149,7 @@ async def post(bot, update):
 
 @FayasNoushad.on_message(filters.private & filters.reply & filters.command(["edit"]), group=2)
 async def edit(bot, update):
-    if (update.text == "/edit") and (update.from_user.id not in AUTH_USERS):
+    if (update.text == "/edit") and (update.from_user.id not in await AUTH_USERS(message.chat.id)):
         return
     if " " in update.text:
         command, link = update.text.split(" ", 1)
