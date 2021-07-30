@@ -25,6 +25,8 @@ Made by @FayasNoushad
 HELP_TEXT = """
 - I am a channel message editor bot.
 - I can edit and post message of a channel.
+- Use /post command with channel ID with reply a message for posting.
+- Use /edit command with message link with reply a message for editing.
 
 Made by @FayasNoushad
 """
