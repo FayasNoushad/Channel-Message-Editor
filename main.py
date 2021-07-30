@@ -105,7 +105,7 @@ async def start(bot, update):
 
 @FayasNoushad.on_message(filters.private & filters.reply & filters.command(["post"]), group=1)
 async def post(bot, update): 
-    if ((update.text == "post") or (" " not in update.text)) and (update.from_user.id not in AUTH_USERS):
+    if ((update.text == "post") or (" " not in update.text)) or (update.from_user.id not in AUTH_USERS):
         return 
     if " " in update.text:
         chat_id = int(update.text.split()[1])
