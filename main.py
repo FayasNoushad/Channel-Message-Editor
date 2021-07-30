@@ -143,7 +143,7 @@ async def post(bot, update):
 
 @FayasNoushad.on_message(filters.private & filters.reply & filters.command(["edit"]), group=2)
 async def edit(bot, update):
-    if (update.text == "/edit") and (update.from_user.id not in AUTH_USERS):
+    if (update.text == "/edit") or (update.from_user.id not in AUTH_USERS):
         return
     if " " in update.text:
         command, link = update.text.split(" ", 1)
