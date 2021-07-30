@@ -101,7 +101,7 @@ async def start(bot, update):
         reply_markup=START_BUTTONS
     )
 
-@FayasNoushad.on_message(filters.private & filters.reply & (filters.command(["post"]), group=1)
+@FayasNoushad.on_message(filters.private & filters.reply & filters.command(["post"]), group=1)
 async def post(bot, update): 
     if ((update.text == "post") or (" " not in update.text)) and (update.from_user.id not in AUTH_USERS):
         return 
