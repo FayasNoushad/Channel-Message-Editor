@@ -151,7 +151,7 @@ async def edit(bot, update):
         return
     if "/" in link:
         ids = link.split("/")
-        chat_id = int(ids[-2])
+        chat_id = -100 + int(ids[-2])
         message_id = int(ids[-1])
     else:
         return
