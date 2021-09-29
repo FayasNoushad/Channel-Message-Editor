@@ -72,6 +72,13 @@ ERROR_BUTTON = InlineKeyboardMarkup(
 
 @FayasNoushad.on_callback_query()
 async def cb_data(bot, update):
+    # NOTE: You should always answer,
+    # but we want different conditionals to
+    # be able to answer to differnetly
+    # (and we can only answer once),
+    # so we don't always answer here.
+    await update.answer()
+
     if update.data == "home":
         await update.message.edit_text(
             text=START_TEXT.format(update.from_user.mention),
