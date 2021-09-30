@@ -77,7 +77,7 @@ async def cb_data(bot, update):
     # be able to answer to differnetly
     # (and we can only answer once),
     # so we don't always answer here.
-    await update.answer()
+    await update.answer("Processing")
 
     if update.data == "home":
         await update.message.edit_text(
