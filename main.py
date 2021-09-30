@@ -8,7 +8,8 @@ import os
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-FayasNoushad = Client(
+
+Bot = Client(
     "Channel Message Editor Bot",
     bot_token = os.environ["BOT_TOKEN"],
     api_id = int(os.environ["API_ID"]),
@@ -70,7 +71,8 @@ ERROR_BUTTON = InlineKeyboardMarkup(
         ]]
     )
 
-@FayasNoushad.on_callback_query()
+
+@Bot.on_callback_query()
 async def cb_data(bot, update):
     # NOTE: You should always answer,
     # but we want different conditionals to
@@ -100,7 +102,8 @@ async def cb_data(bot, update):
     else:
         await update.message.delete()
 
-@FayasNoushad.on_message(filters.private & filters.command(["start"]))
+
+@Bot.on_message(filters.private & filters.command(["start"]))
 async def start(bot, update):
     if update.from_user.id not in AUTH_USERS:
         return
@@ -110,7 +113,8 @@ async def start(bot, update):
         reply_markup=START_BUTTONS
     )
 
-@FayasNoushad.on_message(filters.private & filters.reply & filters.command(["post"]), group=1)
+
+@Bot.on_message(filters.private & filters.reply & filters.command(["post"]), group=1)
 async def post(bot, update): 
     if ((update.text == "post") or (" " not in update.text)) or (update.from_user.id not in AUTH_USERS):
         return 
@@ -148,7 +152,8 @@ async def post(bot, update):
         print(error)
         await update.reply_text(error)
 
-@FayasNoushad.on_message(filters.private & filters.reply & filters.command(["edit"]), group=2)
+
+@Bot.on_message(filters.private & filters.reply & filters.command(["edit"]), group=2)
 async def edit(bot, update):
     if (update.text == "/edit") or (update.from_user.id not in AUTH_USERS):
         return
@@ -190,4 +195,5 @@ async def edit(bot, update):
     else:
         await update.reply_text("I can edit text only")
 
-FayasNoushad.run()
+
+Bot.run()
