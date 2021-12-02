@@ -1,21 +1,5 @@
-```
-Made with Python3
-(C) @FayasNoushad
-Copyright permission under MIT License
-License -> https://github.com/FayasNoushad/Channel-Message-Editor/blob/main/LICENSE
-```
-
----
-
-## Deploy
-
-```sh
-git clone https://github.com/FayasNoushad/Channel-Message-Editor.git
-cd Channel-Message-Editor
-pip3 install -r requirements.txt
-# <Create Variables appropriately>
-python3 main.py
-```
+# Channel Message Editor
+A telegram channel message editor bot
 
 ---
 
@@ -27,10 +11,3 @@ python3 main.py
 - `AUTH_USERS` Channel administrators IDs
 
 ---
-
-## Credits
-
-- [Fayas Noushad](https://github.com/FayasNoushad)
-- [Pyrogram](https://github.com/pyrogram/pyrogram)
-
-  ---
