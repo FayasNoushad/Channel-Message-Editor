@@ -1,7 +1,10 @@
 import os
+from dotenv import load_dotenv
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+
+load_dotenv()
 
 Bot = Client(
     "Channel Message Editor Bot",
